@@ -50,7 +50,6 @@ export const storeHashtagsAndResults = async (
 		});
 	}
 
-	console.log(search);
 	const results = await Promise.all(
 		myRes.map(async (result) => {
 			console.log(search.id);
@@ -65,8 +64,6 @@ export const storeHashtagsAndResults = async (
 		})
 	);
 
-	console.log(results);
-
 	res.json({ hashtag, results });
 };
 
@@ -75,27 +72,4 @@ export const getHashtagsAndResults = async (req: Request, res: Response) => {
 	const results = await getRepository(Result).find();
 
 	return res.json({ hashtags, results });
-};
-
-export const twitterTest = async (req: Request, res: Response) => {
-	const twitterRes = await axios.get(
-		`https://api.twitter.com/1.1/search/tweets.json?q=%23${req.body.hashtag}&result_type=recent`,
-		{
-			headers: {
-				Authorization: `Bearer AAAAAAAAAAAAAAAAAAAAAEXbNgEAAAAA3heXIozHuGICkOAQ2Da13ksMdEc%3Dn0aK7YhudfY3iUsbz4HAFpBew8FJ62e7vNkBKueX5S45UVQ0DF`,
-			},
-		}
-	);
-
-	const myRes = twitterRes.data.statuses.map((tweet) => {
-		return {
-			tweet_date: tweet.created_at,
-			tweet: tweet.text,
-			user: tweet.user.name,
-			twitter: tweet.user.screen_name,
-			profile_img_url: tweet.user.profile_image_url,
-		};
-	});
-
-	return res.json({ myRes });
 };
