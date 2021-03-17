@@ -5,6 +5,8 @@ import { Result } from '../entity/Result';
 import { Search } from '../entity/Search';
 import axios from 'axios';
 
+const dotenv = require('dotenv').config();
+
 export const storeHashtagsAndResults = async (
 	req: Request,
 	res: Response,
@@ -22,7 +24,7 @@ export const storeHashtagsAndResults = async (
 		`https://api.twitter.com/1.1/search/tweets.json?q=%23${req.body.hashtag}&result_type=recent`,
 		{
 			headers: {
-				Authorization: `Bearer AAAAAAAAAAAAAAAAAAAAAEXbNgEAAAAA3heXIozHuGICkOAQ2Da13ksMdEc%3Dn0aK7YhudfY3iUsbz4HAFpBew8FJ62e7vNkBKueX5S45UVQ0DF`,
+				Authorization: `Bearer ${process.env.API_KEY}`,
 			},
 		}
 	);
