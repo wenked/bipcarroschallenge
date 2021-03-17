@@ -69,7 +69,14 @@ export const storeHashtagsAndResults = async (
 
 export const getHashtagsAndResults = async (req: Request, res: Response) => {
 	const hashtags = await getRepository(Hashtag).find();
-	const results = await getRepository(Result).find();
+	const hashtagsWithResults = await Promise.all(
+		hashtags.map(async (hashtag) => {
+			return {
+				hashtag: hashtag.hashtag,
+				results: await getRepository(Result).find({ searchId: hashtag.id + 1 }),
+			};
+		})
+	);
 
-	return res.json({ hashtags, results });
+	return res.json({ hashtags, hashtagsWithResults });
 };
