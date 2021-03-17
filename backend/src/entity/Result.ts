@@ -2,16 +2,21 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Search } from './Search';
 
 @Entity()
-export class Hashtags {
+export class Result {
 	@PrimaryGeneratedColumn()
 	id: number;
 
 	@Column()
-	hashtag: string;
+	content: string;
+
+	@ManyToOne(() => Search, (search) => search.result)
+	search: Search;
 
 	@CreateDateColumn()
 	created_at: Date;
