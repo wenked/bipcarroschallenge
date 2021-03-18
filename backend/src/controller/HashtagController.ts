@@ -63,15 +63,6 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 
 export const getHashtagsAndResults = async (req: Request, res: Response) => {
 	const hashtags = await getRepository(Hashtag).find();
-	const results = await getRepository(Result).find();
 
-	/*const user = await getRepository(TwitterUser).findOne({
-		twitter: 'greenseeker1',
-	});
-	console.log(user);
-	const tweetsFromuser = await getRepository(Result).findOne({
-		twitterUser: user,
-	});*/
-
-	return res.json({ hashtags, results });
+	return res.json({ hashtags });
 };

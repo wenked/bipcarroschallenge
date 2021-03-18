@@ -18,6 +18,6 @@ export class Hashtag {
 	@CreateDateColumn()
 	created_at: Date;
 
-	@OneToMany(() => Result, (result) => result.hashtag)
+	@OneToMany(() => Result, (result) => result.hashtag, { eager: true })
 	results: Result[];
 }

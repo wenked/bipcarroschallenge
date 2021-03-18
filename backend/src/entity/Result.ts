@@ -25,6 +25,8 @@ export class Result {
 	@ManyToOne(() => Hashtag, (hashtag) => hashtag.results)
 	hashtag: Hashtag;
 
-	@ManyToOne(() => TwitterUser, (twitterUser) => twitterUser.results)
+	@ManyToOne(() => TwitterUser, (twitterUser) => twitterUser.results, {
+		eager: true,
+	})
 	twitterUser: TwitterUser;
 }
