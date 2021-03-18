@@ -3,11 +3,13 @@ import { createConnection } from 'typeorm';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import routes from './routes';
+const cors = require('cors');
 
 const dotenv = require('dotenv').config();
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(routes);
 

@@ -38,27 +38,34 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 		};
 	});
 
-	await Promise.all(
+	const results = await Promise.all(
 		formatedApiResponse.map(async (result) => {
-			let user = await getRepository(TwitterUser).findOne({
-				twitter: result.twitter,
-			});
-			if (!user) {
-				user = await getRepository(TwitterUser).save({
+			try {
+				let user = await getRepository(TwitterUser).findOne({
 					twitter: result.twitter,
-					user: result.user,
-					profile_img_url: result.profile_img_url,
 				});
+				if (!user) {
+					user = await getRepository(TwitterUser).save({
+						twitter: result.twitter,
+						user: result.user,
+						profile_img_url: result.profile_img_url,
+					});
+				}
+				return await getRepository(Result).save({
+					content: result.tweet,
+					hashtag: hashtag,
+					tweet_date: result.tweet_date,
+					twitterUser: user,
+				});
+			} catch (err) {
+				console.log(err);
 			}
-			return await getRepository(Result).save({
-				content: result.tweet,
-				hashtag: hashtag,
-				tweet_date: result.tweet_date,
-				twitterUser: user,
-			});
 		})
 	);
-	res.json({ hashtag });
+
+	console.log(results);
+
+	return res.json({ hashtag, results });
 };
 
 export const getHashtagsAndResults = async (req: Request, res: Response) => {
