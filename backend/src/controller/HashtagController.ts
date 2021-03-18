@@ -2,26 +2,25 @@ import { Hashtag } from '../entity/Hashtag';
 import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
 import { Result } from '../entity/Result';
-import { Search } from '../entity/Search';
+
 import axios from 'axios';
+import { TwitterUser } from '../entity/TwitterUser';
 
 const dotenv = require('dotenv').config();
 
-export const storeHashtagsAndResults = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
-	let search;
-	let hashtag;
-	let myRes;
+export const storeHashtagsAndResults = async (req: Request, res: Response) => {
+	const searchedHashtag = req.body;
 
-	hashtag = await getRepository(Hashtag).findOne({
-		hashtag: req.body.hashtag,
+	let hashtag = await getRepository(Hashtag).findOne({
+		hashtag: searchedHashtag.hashtag,
 	});
 
-	const twitterRes = await axios.get(
-		`https://api.twitter.com/1.1/search/tweets.json?q=%23${req.body.hashtag}&result_type=recent`,
+	if (!hashtag) {
+		hashtag = await getRepository(Hashtag).save(searchedHashtag);
+	}
+
+	const twitterApiResponse = await axios.get(
+		`https://api.twitter.com/1.1/search/tweets.json?q=%23${searchedHashtag.hashtag}&result_type=recent`,
 		{
 			headers: {
 				Authorization: `Bearer ${process.env.API_KEY}`,
@@ -29,7 +28,7 @@ export const storeHashtagsAndResults = async (
 		}
 	);
 
-	myRes = twitterRes.data.statuses.map((tweet) => {
+	const formatedApiResponse = twitterApiResponse.data.statuses.map((tweet) => {
 		return {
 			tweet_date: tweet.created_at,
 			tweet: tweet.text,
@@ -39,44 +38,40 @@ export const storeHashtagsAndResults = async (
 		};
 	});
 
-	if (hashtag) {
-		search = await getRepository(Search).save({ hashtagId: hashtag.id });
-	} else {
-		hashtag = await getRepository(Hashtag).save({
-			hashtag: req.body.hashtag,
-		});
-		search = await getRepository(Search).save({
-			hashtagId: hashtag.id,
-		});
-	}
-
-	const results = await Promise.all(
-		myRes.map(async (result) => {
-			console.log(search.id);
-			return await getRepository(Result).save({
-				user: result.user,
-				content: result.tweet,
-				tweet_date: result.tweet_date,
+	await Promise.all(
+		formatedApiResponse.map(async (result) => {
+			let user = await getRepository(TwitterUser).findOne({
 				twitter: result.twitter,
-				profile_img_url: result.profile_img_url,
-				searchId: search.id,
+			});
+			if (!user) {
+				user = await getRepository(TwitterUser).save({
+					twitter: result.twitter,
+					user: result.user,
+					profile_img_url: result.profile_img_url,
+				});
+			}
+			return await getRepository(Result).save({
+				content: result.tweet,
+				hashtag: hashtag,
+				tweet_date: result.tweet_date,
+				twitterUser: user,
 			});
 		})
 	);
-
-	res.json({ hashtag, results });
+	res.json({ hashtag, results: formatedApiResponse });
 };
 
 export const getHashtagsAndResults = async (req: Request, res: Response) => {
 	const hashtags = await getRepository(Hashtag).find();
-	const hashtagsWithResults = await Promise.all(
-		hashtags.map(async (hashtag) => {
-			return {
-				hashtag: hashtag.hashtag,
-				results: await getRepository(Result).find({ searchId: hashtag.id + 1 }),
-			};
-		})
-	);
+	const results = await getRepository(Result).find();
 
-	return res.json({ hashtags, hashtagsWithResults });
+	/*const user = await getRepository(TwitterUser).findOne({
+		twitter: 'greenseeker1',
+	});
+	console.log(user);
+	const tweetsFromuser = await getRepository(Result).findOne({
+		twitterUser: user,
+	});*/
+
+	return res.json({ hashtags, results });
 };

@@ -5,37 +5,26 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Search } from './Search';
+import { Hashtag } from './Hashtag';
+import { TwitterUser } from './TwitterUser';
 
 @Entity()
 export class Result {
 	@PrimaryGeneratedColumn()
-	id: number;
-
-	@Column()
-	user: string;
-
-	@Column()
-	searchId: number;
-
-	@Column()
-	tweet_date: string;
-
-	@Column()
-	content: string;
-
-	@Column()
-	twitter: string;
-
-	@Column()
-	profile_img_url: string;
-
-	@ManyToOne(() => Search, (search) => search.result)
-	search: Search;
+	resultId: number;
 
 	@CreateDateColumn()
 	created_at: Date;
 
-	@CreateDateColumn()
-	updated_at: Date;
+	@Column()
+	tweet_date: Date;
+
+	@Column()
+	content: string;
+
+	@ManyToOne(() => Hashtag, (hashtag) => hashtag.results)
+	hashtag: Hashtag;
+
+	@ManyToOne(() => TwitterUser, (twitterUser) => twitterUser.results)
+	twitterUser: TwitterUser;
 }
