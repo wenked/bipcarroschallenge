@@ -58,7 +58,7 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 			});
 		})
 	);
-	res.json({ hashtag, results: formatedApiResponse });
+	res.json({ hashtag });
 };
 
 export const getHashtagsAndResults = async (req: Request, res: Response) => {
