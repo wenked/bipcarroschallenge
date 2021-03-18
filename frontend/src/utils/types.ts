@@ -13,6 +13,13 @@ export interface Result {
 	twitterUser: TwitterUser;
 }
 
+export interface Hashtag {
+	hashtagId: number;
+	hashtag: string;
+	created_at: string;
+}
+
 export interface Hashtags {
-	hashtags: Result[];
+	hashtag: Hashtag;
+	results: Result[];
 }

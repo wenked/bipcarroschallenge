@@ -13,14 +13,11 @@ const SearchBox: React.FC<SearchBoxProps> = ({ setApiResponse }) => {
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const res = await axios.post(
-			'https://cors-anywhere.herokuapp.com/http://localhost:3333/hashtag',
-			{
-				hashtag: `${inputText}`,
-			}
-		);
+		const res = await axios.post('http://localhost:3333/hashtag', {
+			hashtag: `${inputText}`,
+		});
 		setApiResponse(res.data);
-		console.log(res);
+		console.log(res.data);
 	};
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
