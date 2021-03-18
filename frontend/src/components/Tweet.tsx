@@ -13,11 +13,17 @@ const Tweet: React.FC<tweetProps> = ({ tweet }) => {
 				margin: '10px',
 				padding: '10px',
 				border: '1px solid black',
+				width: '500px',
 			}}>
-			<Avatar src={`${tweet.twitterUser.profile_img_url}`} />
-			<Typography variant='h5' gutterBottom>
-				@{tweet.twitterUser.twitter}
-			</Typography>
+			<div style={{ display: 'inline-flex' }}>
+				<Avatar src={`${tweet.twitterUser.profile_img_url}`} />
+				<Typography
+					variant='h6'
+					gutterBottom
+					style={{ padding: '10px', alignItems: 'center' }}>
+					@{tweet.twitterUser.twitter}
+				</Typography>
+			</div>
 			<Typography variant='h6' gutterBottom>
 				{tweet.content}
 			</Typography>

@@ -23,3 +23,7 @@ export interface Hashtags {
 	hashtag: Hashtag;
 	results: Result[];
 }
+
+export interface RecentsHashtags {
+	hashtags: Hashtags[];
+}
