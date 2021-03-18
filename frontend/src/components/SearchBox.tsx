@@ -1,12 +1,12 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
-import { Hashtags, RecentsHashtags } from '../utils/types';
+import { Hashtags } from '../utils/types';
 import axios from 'axios';
 
 interface SearchBoxProps {
 	setRecentHashtags: React.Dispatch<
-		React.SetStateAction<RecentsHashtags | undefined>
+		React.SetStateAction<Hashtags[] | undefined>
 	>;
 	setApiResponse: React.Dispatch<React.SetStateAction<Hashtags | undefined>>;
 }
@@ -20,13 +20,21 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		console.log('teste');
+		try {
+			const res = await axios.post('http://localhost:3333/hashtag', {
+				hashtag: `${inputText}`,
+			});
+			setApiResponse(res.data);
+		} catch (err) {
+			console.log(err);
+		}
+
 		const recent = await axios.get('http://localhost:3333/hashtag');
-		const res = await axios.post('http://localhost:3333/hashtag', {
-			hashtag: `${inputText}`,
-		});
-		console.log(recent);
-		setApiResponse(res.data);
-		setRecentHashtags(recent.data);
+		const formatedData = recent.data.hashtags.sort(
+			(a: any, b: any) => b.hashtagId - a.hashtagId
+		);
+
+		setRecentHashtags(formatedData);
 	};
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -3,11 +3,12 @@ import React from 'react';
 import RecentHashtagsBox from './components/RecentHashtagsBox';
 import SearchBox from './components/SearchBox';
 import { TweetsBox } from './components/TweetsBox';
-import { Hashtags, RecentsHashtags } from './utils/types';
+import { Hashtags } from './utils/types';
+import './global.css';
 
 const App: React.FC = () => {
 	const [apiResponse, setApiResponse] = React.useState<Hashtags>();
-	const [recentHashtags, setRecentHashtags] = React.useState<RecentsHashtags>();
+	const [recentHashtags, setRecentHashtags] = React.useState<Hashtags[]>();
 
 	return (
 		<div
@@ -31,9 +32,12 @@ const App: React.FC = () => {
 					<TweetsBox apiResponse={apiResponse} />
 				)}
 				{recentHashtags ? (
-					<RecentHashtagsBox recentHashtags={recentHashtags} />
+					<RecentHashtagsBox
+						recentHashtags={recentHashtags}
+						setApiResponse={setApiResponse}
+					/>
 				) : (
-					'hmmmm'
+					<></>
 				)}
 			</div>
 		</div>

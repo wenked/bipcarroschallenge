@@ -20,10 +20,8 @@ export interface Hashtag {
 }
 
 export interface Hashtags {
-	hashtag: Hashtag;
+	hashtagId: number;
+	hashtag: string;
+	created_at: string;
 	results: Result[];
-}
-
-export interface RecentsHashtags {
-	hashtags: Hashtags[];
 }
