@@ -1,6 +1,6 @@
-import { Typography } from '@material-ui/core';
 import React from 'react';
 import { Hashtags } from '../utils/types';
+import Tweet from './Tweet';
 
 interface TweetsBoxProps {
 	apiResponse: Hashtags | undefined;
@@ -8,24 +8,17 @@ interface TweetsBoxProps {
 
 export const TweetsBox: React.FC<TweetsBoxProps> = ({ apiResponse }) => {
 	return (
-		<div>
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: '40px',
+				width: '40%',
+			}}>
 			{apiResponse?.results.map((tweet, i) => {
-				return (
-					<div
-						key={i}
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							padding: '10px',
-						}}>
-						<Typography variant='h5' gutterBottom>
-							@{tweet.twitterUser.twitter}
-						</Typography>
-						<Typography variant='h6' gutterBottom>
-							{tweet.content}
-						</Typography>
-					</div>
-				);
+				return <Tweet tweet={tweet} key={i} />;
 			})}
 		</div>
 	);

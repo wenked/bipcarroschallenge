@@ -26,8 +26,17 @@ const SearchBox: React.FC<SearchBoxProps> = ({ setApiResponse }) => {
 
 	return (
 		<div>
-			<form onSubmit={onSubmit}>
-				<TextField required onChange={onChange} label='Hashtag' size='medium' />
+			<form
+				onSubmit={onSubmit}
+				style={{ display: 'flex', flexDirection: 'row' }}>
+				<TextField
+					required
+					onChange={onChange}
+					label='Hashtag'
+					size='medium'
+					style={{ color: '#d8d4cf' }}
+					fullWidth
+				/>
 				<Button type='submit' variant='outlined' style={{ marginLeft: '10px' }}>
 					Search
 				</Button>
