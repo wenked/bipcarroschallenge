@@ -11,6 +11,7 @@ const App: React.FC = () => {
 	const [apiResponse, setApiResponse] = React.useState<ApiPostResponse>();
 	const [recentHashtags, setRecentHashtags] = React.useState<Hashtags[]>();
 	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState(false);
 
 	return (
 		<div
@@ -28,6 +29,7 @@ const App: React.FC = () => {
 				setApiResponse={setApiResponse}
 				setRecentHashtags={setRecentHashtags}
 				setLoading={setLoading}
+				setError={setError}
 			/>
 			<div
 				style={{
@@ -36,7 +38,11 @@ const App: React.FC = () => {
 					justifyContent: 'center',
 					boxSizing: 'border-box',
 				}}>
-				{loading ? (
+				{error ? (
+					<Typography style={{ display: 'flex', justifyContent: 'center' }}>
+						No tweets found.
+					</Typography>
+				) : loading ? (
 					<CircularProgress
 						style={{
 							padding: '10px',
@@ -52,6 +58,8 @@ const App: React.FC = () => {
 					<RecentHashtagsBox
 						recentHashtags={recentHashtags}
 						setApiResponse={setApiResponse}
+						setError={setError}
+						setLoading={setLoading}
 					/>
 				) : (
 					<></>

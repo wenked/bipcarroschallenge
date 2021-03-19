@@ -8,11 +8,15 @@ interface RecentHashtagsBoxProps {
 	setApiResponse: React.Dispatch<
 		React.SetStateAction<ApiPostResponse | undefined>
 	>;
+	setError: React.Dispatch<React.SetStateAction<boolean>>;
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 	recentHashtags,
 	setApiResponse,
+	setError,
+	setLoading,
 }) => {
 	return (
 		<div
@@ -32,10 +36,19 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 						size='small'
 						variant='text'
 						onClick={async () => {
-							const res = await axios.post('http://localhost:3333/hashtag', {
-								hashtag: `${hashtag.hashtag}`,
-							});
-							setApiResponse(res.data);
+							try {
+								setLoading(true);
+								const res = await axios.post('http://localhost:3333/hashtag', {
+									hashtag: `${hashtag.hashtag}`,
+								});
+
+								setApiResponse(res.data);
+								setLoading(false);
+								setError(false);
+							} catch (err) {
+								setError(true);
+								console.log(err);
+							}
 						}}>
 						<Typography
 							key={i}

@@ -13,12 +13,14 @@ interface SearchBoxProps {
 	setApiResponse: React.Dispatch<
 		React.SetStateAction<ApiPostResponse | undefined>
 	>;
+	setError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SearchBox: React.FC<SearchBoxProps> = ({
 	setApiResponse,
 	setRecentHashtags,
 	setLoading,
+	setError,
 }) => {
 	const [inputText, setInputText] = React.useState('');
 
@@ -38,9 +40,11 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 			);
 
 			setRecentHashtags(formatedData);
+			setError(false);
 			setLoading(false);
 		} catch (err) {
 			console.log(err);
+			setError(true);
 		}
 	};
 
