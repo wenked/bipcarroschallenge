@@ -8,23 +8,26 @@ interface SearchBoxProps {
 	setRecentHashtags: React.Dispatch<
 		React.SetStateAction<Hashtags[] | undefined>
 	>;
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 	setApiResponse: React.Dispatch<React.SetStateAction<Hashtags | undefined>>;
 }
 
 const SearchBox: React.FC<SearchBoxProps> = ({
 	setApiResponse,
 	setRecentHashtags,
+	setLoading,
 }) => {
 	const [inputText, setInputText] = React.useState('');
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log('teste');
+		setLoading(true);
 		try {
 			const res = await axios.post('http://localhost:3333/hashtag', {
 				hashtag: `${inputText}`,
 			});
 			setApiResponse(res.data);
+			setLoading(false);
 		} catch (err) {
 			console.log(err);
 		}

@@ -5,10 +5,12 @@ import SearchBox from './components/SearchBox';
 import { TweetsBox } from './components/TweetsBox';
 import { Hashtags } from './utils/types';
 import './global.css';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const App: React.FC = () => {
 	const [apiResponse, setApiResponse] = React.useState<Hashtags>();
 	const [recentHashtags, setRecentHashtags] = React.useState<Hashtags[]>();
+	const [loading, setLoading] = React.useState(false);
 
 	return (
 		<div
@@ -21,13 +23,28 @@ const App: React.FC = () => {
 			<Typography variant='h1' gutterBottom>
 				Hashtag
 			</Typography>
+
 			<SearchBox
 				setApiResponse={setApiResponse}
 				setRecentHashtags={setRecentHashtags}
+				setLoading={setLoading}
 			/>
-			<div style={{ display: 'flex', flexDirection: 'row' }}>
-				{!apiResponse ? (
-					<Typography variant='h4'>Loading...</Typography>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					boxSizing: 'border-box',
+				}}>
+				{loading ? (
+					<CircularProgress
+						style={{
+							padding: '10px',
+							margin: '10px',
+							display: 'flex',
+							justifyContent: 'center',
+						}}
+					/>
 				) : (
 					<TweetsBox apiResponse={apiResponse} />
 				)}

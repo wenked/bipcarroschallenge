@@ -15,7 +15,7 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 	return (
 		<div
 			style={{
-				border: '1px solid black',
+				border: '1px solid #d8d4cf',
 				padding: '10px',
 				margin: '60px',
 				display: 'flex',
@@ -38,7 +38,7 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 							key={i}
 							variant='h4'
 							style={{ fontSize: '25px', textTransform: 'none' }}>
-							{hashtag.hashtag}
+							#{hashtag.hashtag}
 						</Typography>
 					</Button>
 				);

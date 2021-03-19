@@ -12,21 +12,22 @@ const Tweet: React.FC<tweetProps> = ({ tweet }) => {
 			style={{
 				margin: '10px',
 				padding: '10px',
-				border: '1px solid black',
+				border: '1px solid #d8d4cf',
 				width: '500px',
 			}}>
 			<div style={{ display: 'inline-flex' }}>
 				<Avatar src={`${tweet.twitterUser.profile_img_url}`} />
 				<Typography
-					variant='h6'
 					gutterBottom
-					style={{ padding: '10px', alignItems: 'center' }}>
+					style={{ padding: '10px', alignItems: 'center', fontWeight: 'bold' }}>
 					@{tweet.twitterUser.twitter}
 				</Typography>
 			</div>
-			<Typography variant='h6' gutterBottom>
-				{tweet.content}
-			</Typography>
+			<div>
+				<Typography style={{ fontWeight: 'normal' }} gutterBottom>
+					{tweet.content}
+				</Typography>
+			</div>
 		</div>
 	);
 };
