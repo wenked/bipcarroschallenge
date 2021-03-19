@@ -1,9 +1,10 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
+//import bodyParser from 'body-parser';
 import routes from './routes';
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv').config();
 

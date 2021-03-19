@@ -27,10 +27,6 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 			hashtag: hashtag,
 		});
 
-		if (!newHashtag) {
-			newHashtag = await getRepository(Hashtag).save({ hashtag: hashtag });
-		}
-
 		const twitterApiResponse = await axios.get(
 			`https://api.twitter.com/1.1/search/tweets.json?q=%23${hashtag}&result_type=recent`,
 			{
@@ -42,6 +38,10 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 
 		if (!twitterApiResponse.data.statuses.length) {
 			return res.status(404).send({ error: 'No tweets found.' });
+		}
+
+		if (!newHashtag) {
+			newHashtag = await getRepository(Hashtag).save({ hashtag: hashtag });
 		}
 
 		const formatedApiResponse: formatedTwitterApiResponse[] = twitterApiResponse.data.statuses.map(
