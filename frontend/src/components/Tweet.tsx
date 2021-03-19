@@ -14,6 +14,7 @@ const Tweet: React.FC<tweetProps> = ({ tweet }) => {
 				padding: '10px',
 				border: '1px solid #d8d4cf',
 				width: '500px',
+				borderRadius: '8px',
 			}}>
 			<div style={{ display: 'inline-flex' }}>
 				<Avatar src={`${tweet.twitterUser.profile_img_url}`} />

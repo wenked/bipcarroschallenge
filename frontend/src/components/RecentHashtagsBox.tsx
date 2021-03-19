@@ -22,6 +22,7 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 				flexDirection: 'column',
 				minHeight: '300px',
 				height: '100%',
+				borderRadius: '8px',
 			}}>
 			{recentHashtags?.map((hashtag, i) => {
 				return (

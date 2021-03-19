@@ -1,7 +1,8 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { Hashtags } from '../utils/types';
+import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 
 interface SearchBoxProps {
@@ -48,18 +49,25 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 		<div>
 			<form
 				onSubmit={onSubmit}
-				style={{ display: 'flex', flexDirection: 'row' }}>
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'center',
+					width: '400px',
+				}}>
 				<TextField
 					required
 					onChange={onChange}
 					label='Hashtag'
 					size='medium'
-					style={{ color: '#d8d4cf' }}
 					fullWidth
 				/>
-				<Button type='submit' variant='outlined' style={{ marginLeft: '10px' }}>
-					Search
-				</Button>
+				<IconButton
+					type='submit'
+					style={{ marginLeft: '10px', marginTop: '20px' }}>
+					<SearchIcon />
+				</IconButton>
 			</form>
 		</div>
 	);
