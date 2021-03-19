@@ -1,6 +1,6 @@
 import { Hashtag } from '../entity/Hashtag';
-import { Request, Response, NextFunction } from 'express';
-import { getRepository, getManager, createQueryBuilder } from 'typeorm';
+import { Request, Response } from 'express';
+import { getRepository } from 'typeorm';
 import { Result } from '../entity/Result';
 import axios from 'axios';
 import { TwitterUser } from '../entity/TwitterUser';
@@ -78,22 +78,23 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 };
 
 export const getHashtagsAndResults = async (req: Request, res: Response) => {
-	const hashtags = await getRepository(Hashtag).find();
-	/* 
-	const rawData = await getManager().query(`
-	SELECT T.twitter,T.profile_img_url,R.content
-	FROM twitter_user as T
-	INNER JOIN result as R
-	ON T.twitter = R."twitterUserTwitter"
-	WHERE T.twitter = '_startupsdaily'
-	`);
+	const { q } = req.query;
 
-	const rawData2 = await getRepository(TwitterUser)
-		.createQueryBuilder('twitter_user')
-		.innerJoinAndSelect('twitter_user.results', 'result')
-		.where('twitter_user.twitter = :twitter', { twitter: '_startupsdaily' })
-		.getOne();
-	console.log(rawData); */
+	if (!q) {
+		const allHashtags = await getRepository(Hashtag).find();
+		const allResults = await getRepository(Result).find();
+		return res.json({ allHashtags, allResults });
+	}
+	const hashtag = await getRepository(Hashtag).findOne({
+		where: { hashtag: q },
+	});
 
-	return res.json({ hashtags });
+	if (!hashtag) {
+		return res.status(400).send({ error: 'Missing hashtag from database' });
+	}
+
+	const result = await getRepository(Result).find({
+		where: { hashtag: hashtag.hashtagId },
+	});
+	return res.json({ hashtag, result });
 };
