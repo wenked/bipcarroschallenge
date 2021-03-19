@@ -1,9 +1,9 @@
 import React from 'react';
-import { Hashtags } from '../utils/types';
+import { ApiPostResponse } from '../utils/types';
 import Tweet from './Tweet';
 
 interface TweetsBoxProps {
-	apiResponse: Hashtags | undefined;
+	apiResponse: ApiPostResponse | undefined;
 }
 
 export const TweetsBox: React.FC<TweetsBoxProps> = ({ apiResponse }) => {

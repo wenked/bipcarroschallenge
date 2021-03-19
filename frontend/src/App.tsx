@@ -3,12 +3,12 @@ import React from 'react';
 import RecentHashtagsBox from './components/RecentHashtagsBox';
 import SearchBox from './components/SearchBox';
 import { TweetsBox } from './components/TweetsBox';
-import { Hashtags } from './utils/types';
+import { ApiPostResponse, Hashtags } from './utils/types';
 import './global.css';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const App: React.FC = () => {
-	const [apiResponse, setApiResponse] = React.useState<Hashtags>();
+	const [apiResponse, setApiResponse] = React.useState<ApiPostResponse>();
 	const [recentHashtags, setRecentHashtags] = React.useState<Hashtags[]>();
 	const [loading, setLoading] = React.useState(false);
 

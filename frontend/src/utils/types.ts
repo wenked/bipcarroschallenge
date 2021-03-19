@@ -25,3 +25,18 @@ export interface Hashtags {
 	created_at: string;
 	results: Result[];
 }
+
+export interface ResultPostApiResponse {
+	tweet_date: string;
+	tweet: string;
+	user: string;
+	twitter: string;
+	profile_img_url: string;
+}
+
+export interface ApiPostResponse {
+	hashtagId: number;
+	hashtag: string;
+	created_at: string;
+	results: ResultPostApiResponse[];
+}

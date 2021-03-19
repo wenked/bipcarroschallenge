@@ -22,7 +22,7 @@ export class Result {
 	@Column()
 	content: string;
 
-	@ManyToOne(() => Hashtag, (hashtag) => hashtag.results)
+	@ManyToOne(() => Hashtag, (hashtag) => hashtag.results, { eager: false })
 	hashtag: Hashtag;
 
 	@ManyToOne(() => TwitterUser, (twitterUser) => twitterUser.results, {

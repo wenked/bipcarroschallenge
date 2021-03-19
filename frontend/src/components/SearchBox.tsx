@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { IconButton } from '@material-ui/core';
-import { Hashtags } from '../utils/types';
+import { ApiPostResponse, Hashtags } from '../utils/types';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 
@@ -10,7 +10,9 @@ interface SearchBoxProps {
 		React.SetStateAction<Hashtags[] | undefined>
 	>;
 	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-	setApiResponse: React.Dispatch<React.SetStateAction<Hashtags | undefined>>;
+	setApiResponse: React.Dispatch<
+		React.SetStateAction<ApiPostResponse | undefined>
+	>;
 }
 
 const SearchBox: React.FC<SearchBoxProps> = ({
@@ -24,21 +26,22 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 		event.preventDefault();
 		setLoading(true);
 		try {
+			console.log('oi');
 			const res = await axios.post('http://localhost:3333/hashtag', {
 				hashtag: `${inputText}`,
 			});
+			console.log(res);
 			setApiResponse(res.data);
+			const recent = await axios.get('http://localhost:3333/hashtag');
+			const formatedData = recent.data.allHashtags.sort(
+				(a: any, b: any) => b.hashtagId - a.hashtagId
+			);
+
+			setRecentHashtags(formatedData);
 			setLoading(false);
 		} catch (err) {
 			console.log(err);
 		}
-
-		const recent = await axios.get('http://localhost:3333/hashtag');
-		const formatedData = recent.data.hashtags.sort(
-			(a: any, b: any) => b.hashtagId - a.hashtagId
-		);
-
-		setRecentHashtags(formatedData);
 	};
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -7,6 +7,14 @@ import { TwitterUser } from '../entity/TwitterUser';
 
 const dotenv = require('dotenv').config();
 
+interface formatedTwitterApiResponse {
+	tweet_date: string;
+	tweet: string;
+	user: string;
+	twitter: string;
+	profile_img_url: string;
+}
+
 export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 	const hashtag = req.body.hashtag.toLowerCase();
 
@@ -33,11 +41,10 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 		);
 
 		if (!twitterApiResponse.data.statuses.length) {
-			console.log('koe');
 			return res.status(404).send({ error: 'No tweets found.' });
 		}
 
-		const formatedApiResponse = twitterApiResponse.data.statuses.map(
+		const formatedApiResponse: formatedTwitterApiResponse[] = twitterApiResponse.data.statuses.map(
 			(tweet) => {
 				return {
 					tweet_date: tweet.created_at,
@@ -49,7 +56,8 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 			}
 		);
 
-		const results = await Promise.all(
+		res.json({ hashtag: newHashtag, results: formatedApiResponse });
+		await Promise.all(
 			formatedApiResponse.map(async (result) => {
 				let user = await getRepository(TwitterUser).findOne({
 					twitter: result.twitter,
@@ -69,8 +77,6 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 				});
 			})
 		);
-
-		return res.json({ hashtag, results });
 	} catch (err) {
 		console.log(err);
 		return res.send(500);

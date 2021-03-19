@@ -1,11 +1,13 @@
 import { Button, Typography } from '@material-ui/core';
 import React from 'react';
-import { Hashtags } from '../utils/types';
+import { ApiPostResponse, Hashtags } from '../utils/types';
 import axios from 'axios';
 
 interface RecentHashtagsBoxProps {
 	recentHashtags: Hashtags[] | undefined;
-	setApiResponse: React.Dispatch<React.SetStateAction<Hashtags | undefined>>;
+	setApiResponse: React.Dispatch<
+		React.SetStateAction<ApiPostResponse | undefined>
+	>;
 }
 
 const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
@@ -15,7 +17,7 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 	return (
 		<div
 			style={{
-				border: '1px solid #d8d4cf',
+				border: '1px solid #30363d',
 				padding: '10px',
 				margin: '60px',
 				display: 'flex',
