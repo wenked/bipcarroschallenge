@@ -1,5 +1,6 @@
 const dotenv = require('dotenv').config();
 module.exports = {
+	url: process.env.DATABASE_URL,
 	type: process.env.TYPEORM_CONNECTION,
 	host: process.env.TYPEORM_HOST,
 	port: process.env.TYPEORM_PORT,
@@ -9,11 +10,17 @@ module.exports = {
 	synchronize: process.env.TYPEORM_SYNCHRONIZE,
 	logging: process.env.TYPEORM_LOGGING,
 	entities: [process.env.TYPEORM_ENTITIES],
-	migrations: ['src/migration/**/*.ts'],
-	subscribers: ['src/subscriber/**/*.ts'],
+	migrations: [process.env.TYPEORM_MIGRATIONS],
+	subscribers: [process.env.TYPEORM_SUBSCRIBERS],
 	cli: {
-		entitiesDir: 'src/entity',
-		migrationsDir: 'src/migration',
-		subscribersDir: 'src/subscriber',
+		entitiesDir: process.env.TYPEORM_ENTITIES_DIR,
+		migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR,
+		subscribersDir: process.env.TYPEORM_SUBSCRIBERS_DIR,
+	},
+	ssl: {
+		rejectUnauthorized: false,
+	},
+	driver: {
+		extra: process.env.TYPEORM_DRIVER_EXTRA,
 	},
 };

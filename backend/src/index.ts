@@ -1,12 +1,13 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import * as express from 'express';
-//import bodyParser from 'body-parser';
+import express from 'express';
 import routes from './routes';
+
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv').config();
+const { Client } = require('pg');
 
 const app = express();
 
