@@ -71,12 +71,14 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 					width: '400px',
 				}}>
 				<TextField
+					placeholder='# insira apenas a palavra aqui'
 					required
 					onChange={onChange}
 					label='Hashtag'
 					size='medium'
 					fullWidth
 				/>
+
 				<Select
 					style={{ marginTop: '16px', marginLeft: '10px' }}
 					labelId='demo-simple-select-label'
