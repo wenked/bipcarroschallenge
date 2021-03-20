@@ -33,14 +33,18 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 			{recentHashtags?.map((hashtag, i) => {
 				return (
 					<Button
+						key={i}
 						size='small'
 						variant='text'
 						onClick={async () => {
 							try {
 								setLoading(true);
-								const res = await axios.post('http://localhost:3333/hashtag', {
-									hashtag: `${hashtag.hashtag}`,
-								});
+								const res = await axios.post(
+									`${process.env.REACT_APP_BASE_URL}`,
+									{
+										hashtag: `${hashtag.hashtag}`,
+									}
+								);
 
 								setApiResponse(res.data);
 								setLoading(false);
@@ -51,7 +55,6 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 							}
 						}}>
 						<Typography
-							key={i}
 							variant='h4'
 							style={{ fontSize: '25px', textTransform: 'none' }}>
 							#{hashtag.hashtag}

@@ -17,6 +17,7 @@ interface formatedTwitterApiResponse {
 
 export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 	const hashtag = req.body.hashtag.toLowerCase();
+	const { count } = req.body;
 
 	if (!hashtag) {
 		return res.status(400).send({ error: 'Missing hashtag' });
@@ -28,7 +29,7 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 		});
 
 		const twitterApiResponse = await axios.get(
-			`https://api.twitter.com/1.1/search/tweets.json?q=%23${hashtag}&result_type=recent`,
+			`https://api.twitter.com/1.1/search/tweets.json?q=%23${hashtag}&result_type=recent&count=${count}`,
 			{
 				headers: {
 					Authorization: `Bearer ${process.env.API_KEY}`,
