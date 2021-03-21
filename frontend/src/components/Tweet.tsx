@@ -7,6 +7,13 @@ interface tweetProps {
 }
 
 const Tweet: React.FC<tweetProps> = ({ tweet }) => {
+	const formatedDate = new Date(Date.parse(tweet.tweet_date)).toLocaleString(
+		'en-GB',
+		{
+			timeZone: 'America/Sao_Paulo',
+		}
+	);
+
 	return (
 		<div
 			style={{
@@ -27,6 +34,9 @@ const Tweet: React.FC<tweetProps> = ({ tweet }) => {
 			<div>
 				<Typography style={{ fontWeight: 'normal' }} gutterBottom>
 					{tweet.tweet}
+				</Typography>
+				<Typography style={{ color: 'gray', padding: '10px' }}>
+					{formatedDate}
 				</Typography>
 			</div>
 		</div>
