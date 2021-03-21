@@ -56,7 +56,11 @@ const RecentHashtagsBox: React.FC<RecentHashtagsBoxProps> = ({
 						}}>
 						<Typography
 							variant='h4'
-							style={{ fontSize: '25px', textTransform: 'none' }}>
+							style={{
+								fontSize: '25px',
+								textTransform: 'none',
+								color: '#d8d4cf',
+							}}>
 							#{hashtag.hashtag}
 						</Typography>
 					</Button>
