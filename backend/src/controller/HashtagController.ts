@@ -56,8 +56,8 @@ export const storeHashtagsAndResults = async (req: Request, res: Response) => {
 				};
 			}
 		);
-
 		res.json({ hashtag: newHashtag, results: formatedApiResponse });
+
 		await Promise.all(
 			formatedApiResponse.map(async (result) => {
 				let user = await getRepository(TwitterUser).findOne({
@@ -93,7 +93,7 @@ export const getHashtagsAndResults = async (req: Request, res: Response) => {
 		return res.json({ allHashtags, allResults });
 	}
 	const hashtag = await getRepository(Hashtag).findOne({
-		where: { hashtag: q },
+		where: { hashtag: q.toString().toLowerCase() },
 	});
 
 	if (!hashtag) {

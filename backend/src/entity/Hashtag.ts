@@ -12,7 +12,7 @@ export class Hashtag {
 	@PrimaryGeneratedColumn()
 	hashtagId: number;
 
-	@Column()
+	@Column({ unique: true })
 	hashtag: string;
 
 	@CreateDateColumn()
